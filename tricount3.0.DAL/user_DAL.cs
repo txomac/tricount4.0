@@ -12,13 +12,13 @@ namespace Tricount.DAL
 
         public string nom { get; set; }
 
-        public int depenses { get; set; }
+        public float depenses { get; set; }
 
         public int id_soiree { get; set; }
 
         public float? dettes { get; set; }
 
-        public user_DAL(string Nom, int Depenses, int ID_Soiree, float? Dettes)
+        public user_DAL(string Nom, float Depenses, int ID_Soiree, float? Dettes)
         {
             nom = Nom;
             depenses = Depenses;
@@ -26,7 +26,7 @@ namespace Tricount.DAL
             dettes = Dettes;
         }
 
-        public user_DAL(int ID, string Nom, int Depenses, int ID_Soiree, float? Dettes)
+        public user_DAL(int ID, string Nom, float Depenses, int ID_Soiree, float? Dettes)
             : this(Nom, Depenses, ID_Soiree, Dettes)
         {
             id = ID;

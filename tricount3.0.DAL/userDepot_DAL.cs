@@ -48,7 +48,7 @@ namespace Tricount.DAL
             {
                 u = new user_DAL(reader.GetInt32(0),
                                                 reader.GetString(1),
-                                                reader.GetInt32(2),
+                                                reader.GetFloat(2),
                                                 reader.GetInt32(3),
                                                 reader.GetFloat(4));
             }
@@ -68,7 +68,7 @@ namespace Tricount.DAL
 
             commande.CommandText = "insert into user(nom, depenses, id_soiree, dettes)" + " values (@NOM, @ORGANISATEUR, @DETTES, @DEPENSES, @ID_SOIREE); select scope_identity()";
             commande.Parameters.Add(new SqlParameter("@NOM", user.nom));
-            commande.Parameters.Add(new SqlParameter("@DEPENSES", user.depenses));
+            commande.Parameters.Add(new SqlParameter("@DEPENSE", user.depenses));
             commande.Parameters.Add(new SqlParameter("@ID_SOIREE", user.id_soiree));
             commande.Parameters.Add(new SqlParameter("@DETTES", user.dettes));
 
@@ -139,7 +139,7 @@ namespace Tricount.DAL
             {
                 u = new user_DAL(reader.GetInt32(0),
                                                 reader.GetString(1),
-                                                reader.GetInt32(2),
+                                                reader.GetFloat(2),
                                                 reader.GetInt32(3),
                                                 reader.GetFloat(4));
                 listeAllUser.Add(u);

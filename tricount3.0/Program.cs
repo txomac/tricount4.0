@@ -33,7 +33,7 @@ namespace Tricount
             }
             if (choixmenu == 3)
             {
-                /*affichageDettes();*/
+                debutcalc();
             }
             else
             {
@@ -86,13 +86,11 @@ namespace Tricount
             int depense = int.Parse(Console.ReadLine());
             var dettes = 0;
             var u = new user(user, depense, choixsoiree, dettes);
+            US.Insert(u);
 
             return 0;
         }
-
-
-
-        static void affichageDettes()
+        static List<user> debutcalc()
         {
             var listeSoiree = SS.GetAllSoiree();
 
@@ -104,35 +102,117 @@ namespace Tricount
             int choixsoiree = int.Parse(Console.ReadLine());
 
             var soiree = SS.GetSoireeByID(choixsoiree);
-            var nbrUser = US.GetUserBySoiree(choixsoiree);
-            nbrUser.Sort();
+            var listUser = US.GetUserBySoiree(choixsoiree);
+            float PrixTotal = 0;
 
-            float prix1;
-            float prix2;
-            float prixtmp;
-            float moyenne = 0; //faire la moyenne
-
-            foreach (var item in nbrUser)
-            {
-                moyenne += item.depenses;
-            }
-
-            moyenne /= nbrUser.Count;
-
-            //depense - moyenne
-            int cpt = 0;
-            for (int i = 0; i < nbrUser.Count; i++)
-            {
-                prix1 = nbrUser[1].depenses - moyenne;
-                while (nbrUser[cpt].depenses - moyenne < 0)
+                foreach (user user in listUser)
                 {
-                    cpt++;
+                    PrixTotal += user.depenses;
                 }
+                float moyenne = (float)Math.Round(PrixTotal / listUser.Count, 2);
+                foreach (user user in listUser)
+                {
+                    user.dettes= moyenne - user.depenses;
+                    US.Update(user);
 
-            }
+                }
+            return listUser;
         }
 
-       
+        static void calculRepayment(List<user> listUser)
+        {
+            for (int i = 0; i < listUser.Count; i++)
+            {
+                while (listUser[i].depenses< 0)
+                {
+                    for (int j = 0; j < listUser.Count; j++)
+                    {
+                        if (listUser[j].depenses > 0)
+                        {
+                            var tmp = listUser[i].depenses + listUser[j].depenses;
+                            switch (tmp)
+                            {
+                                case > 0:
+
+                                    Console.WriteLine($"{listUser[j].nom} doit {Math.Round(Math.Abs(listUser[i].depenses), 2)}euros à {listUser[i].nom}");
+                                    listUser[i].depenses= 0;
+                                    listUser[j].depenses = tmp;
+                                    break;
+                                case < 0:
+                                    Console.WriteLine($"{listUser[j].nom} doit {Math.Round(Math.Abs(listUser[i].depenses), 2)}euros à {listUser[i].nom}");
+                                    listUser[i].depenses = tmp;
+                                    listUser[j].depenses = 0;
+                                    break;
+                                case 0:
+                                    Console.WriteLine($"{listUser[j].nom} doit {Math.Round(Math.Abs(listUser[i].depenses), 2)}euros à {listUser[i].nom}");
+                                    listUser[i].depenses = 0;
+                                    listUser[j].depenses = 0;
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                    }
+                }
+            }
+
+        }
+
+
+        /*   static void affichageDettes()
+           {
+               var listeSoiree = SS.GetAllSoiree();
+
+               Console.WriteLine("Voici la liste des soirée :\n");
+
+               AfficherPartie();
+
+               Console.WriteLine("Vous souhaitez voir quelle soirée ?");
+               int choixsoiree = int.Parse(Console.ReadLine());
+
+               var soiree = SS.GetSoireeByID(choixsoiree);
+               var nbrUser = US.GetUserBySoiree(choixsoiree);
+               nbrUser.Sort();*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+        /*
+                    float prix1;
+                    float prix2;
+                    float prixtmp;
+                    float moyenne = 0; //faire la moyenne
+
+                    foreach (var item in nbrUser)
+                    {
+                        moyenne += item.depenses;
+                    }
+
+                    moyenne /= nbrUser.Count;
+
+                    //depense - moyenne
+                    int cpt = 0;
+                    for (int i = 0; i < nbrUser.Count; i++)
+                    {
+                        prix1 = nbrUser[1].depenses - moyenne;
+                        while (nbrUser[cpt].depenses - moyenne < 0)
+                        {
+                            cpt++;
+                        }
+
+                    }
+                }
+        */
+
         /*
             int prix1;
             int prix2;
