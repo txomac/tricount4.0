@@ -6,4 +6,8 @@
     <RootNamespace>tricount3._0</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\tricount3.0.DAL\tricount3.0.DAL.csproj" />
+  </ItemGroup>
+
 </Project>
