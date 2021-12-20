@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.32002.261
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "tricount3.0", "tricount3.0\tricount3.0.csproj", "{87B73A0D-50DE-4A76-8080-9ED4BC9BD781}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "tricount4.0", "tricount3.0\tricount4.0.csproj", "{87B73A0D-50DE-4A76-8080-9ED4BC9BD781}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tricount3.0.DAL", "tricount3.0.DAL\tricount3.0.DAL.csproj", "{AC91987B-8CF9-4173-BE7D-875FC8833B73}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tricount4.0.DAL", "tricount3.0.DAL\tricount4.0.DAL.csproj", "{AC91987B-8CF9-4173-BE7D-875FC8833B73}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{3FCD4D54-BC6C-41F6-AC3F-EE543177C977}"
 EndProject
