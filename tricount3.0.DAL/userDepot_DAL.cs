@@ -48,9 +48,9 @@ namespace Tricount.DAL
             {
                 u = new user_DAL(reader.GetInt32(0),
                                                 reader.GetString(1),
-                                                reader.GetFloat(2),
+                                                (float)reader.GetDouble(2),
                                                 reader.GetInt32(3),
-                                                reader.GetFloat(4));
+                                                (float)reader.GetDouble(4));
             }
             else
             {

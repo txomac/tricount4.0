@@ -116,6 +116,8 @@ namespace Tricount
                 US.Update(user);
 
             }
+            calculRepayment(listUser);
+
             return listUser;
         }
 
@@ -123,30 +125,30 @@ namespace Tricount
         {
             for (int i = 0; i < listUser.Count; i++)
             {
-                while (listUser[i].depenses < 0)
+                while (listUser[i].dettes < 0)
                 {
                     for (int j = 0; j < listUser.Count; j++)
                     {
-                        if (listUser[j].depenses > 0)
+                        if (listUser[j].dettes > 0)
                         {
-                            var tmp = listUser[i].depenses + listUser[j].depenses;
+                            var tmp = listUser[i].dettes + listUser[j].dettes;
                             switch (tmp)
                             {
                                 case > 0:
 
-                                    Console.WriteLine($"{listUser[j].nom} doit {Math.Round(Math.Abs(listUser[i].depenses), 2)}euros à {listUser[i].nom}");
-                                    listUser[i].depenses = 0;
-                                    listUser[j].depenses = tmp;
+                                    Console.WriteLine($"{listUser[j].nom} doit {Math.Round(Math.Abs((float)listUser[i].dettes), 2)}euros à {listUser[i].nom}");
+                                    listUser[i].dettes = 0;
+                                    listUser[j].dettes = tmp;
                                     break;
                                 case < 0:
-                                    Console.WriteLine($"{listUser[j].nom} doit {Math.Round(Math.Abs(listUser[i].depenses), 2)}euros à {listUser[i].nom}");
-                                    listUser[i].depenses = tmp;
-                                    listUser[j].depenses = 0;
+                                    Console.WriteLine($"{listUser[j].nom} doit {Math.Round(Math.Abs((float)listUser[i].dettes), 2)}euros à {listUser[i].nom}");
+                                    listUser[i].dettes = tmp;
+                                    listUser[j].dettes = 0;
                                     break;
                                 case 0:
-                                    Console.WriteLine($"{listUser[j].nom} doit {Math.Round(Math.Abs(listUser[i].depenses), 2)}euros à {listUser[i].nom}");
-                                    listUser[i].depenses = 0;
-                                    listUser[j].depenses = 0;
+                                    Console.WriteLine($"{listUser[j].nom} doit {Math.Round(Math.Abs((float)listUser[i].dettes), 2)}euros à {listUser[i].nom}");
+                                    listUser[i].dettes = 0;
+                                    listUser[j].dettes = 0;
                                     break;
                                 default:
                                     break;
