@@ -34,7 +34,7 @@ namespace Tricount
         }
         public user Update(user u)
         {
-            var user = new user_DAL(u.nom, u.depenses, u.id_soiree, u.dettes);
+            var user = new user_DAL(u.id, u.nom, u.depenses, u.id_soiree, u.dettes);
             depot.Update(user);
 
             return u;

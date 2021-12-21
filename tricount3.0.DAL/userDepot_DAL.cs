@@ -13,7 +13,7 @@ namespace Tricount.DAL
         {
             CreerConnexionEtCommande();
 
-            commande.CommandText = "select id, nom, depenses, id_soiree, dettes from user";
+            commande.CommandText = "select id, nom, depenses, id_soiree, dettes from [user]";
             var reader = commande.ExecuteReader();
 
             var listeUser = new List<user_DAL>();
@@ -38,7 +38,7 @@ namespace Tricount.DAL
         {
             CreerConnexionEtCommande();
 
-            commande.CommandText = "select id, nom, depenses, id_soiree, dettes from user where ID=@ID";
+            commande.CommandText = "select id, nom, depenses, id_soiree, dettes from [user] where ID=@ID";
             commande.Parameters.Add(new SqlParameter("@ID", ID));
             var reader = commande.ExecuteReader();
 
@@ -48,9 +48,9 @@ namespace Tricount.DAL
             {
                 u = new user_DAL(reader.GetInt32(0),
                                                 reader.GetString(1),
-                                                reader.GetFloat(2),
+                                                (float)reader.GetDouble(2),
                                                 reader.GetInt32(3),
-                                                reader.GetFloat(4));
+                                                (float)reader.GetDouble(4));
             }
             else
             {
@@ -66,18 +66,16 @@ namespace Tricount.DAL
         {
             CreerConnexionEtCommande();
 
-            commande.CommandText = "insert into user(nom, depenses, id_soiree, dettes)" + " values (@NOM, @ORGANISATEUR, @DETTES, @DEPENSES, @ID_SOIREE); select scope_identity()";
+            commande.CommandText = "insert into [user](nom, depenses, id_soiree, dettes)" + " values (@NOM, @DEPENSES, @ID_SOIREE, @DETTES); select scope_identity()";
             commande.Parameters.Add(new SqlParameter("@NOM", user.nom));
-            commande.Parameters.Add(new SqlParameter("@DEPENSE", user.depenses));
+            commande.Parameters.Add(new SqlParameter("@DEPENSES", user.depenses));
             commande.Parameters.Add(new SqlParameter("@ID_SOIREE", user.id_soiree));
             commande.Parameters.Add(new SqlParameter("@DETTES", user.dettes));
 
             var ID = Convert.ToInt32((decimal)commande.ExecuteScalar());
 
-            user.nom = GetByID(ID).nom;
-            user.depenses = GetByID(ID).depenses;
-            user.id_soiree = GetByID(ID).id_soiree;
-            user.dettes = GetByID(ID).dettes;
+            user.id = ID;
+            
             DetruireConnexionEtCommande();
 
             return user;
@@ -87,11 +85,12 @@ namespace Tricount.DAL
         {
             CreerConnexionEtCommande();
 
-            commande.CommandText = "update user set nom=@NOM, depenses=@DEPENSES, id_soiree=@ID_SOIREE, dettes=@DETTES where ID=@ID";
+            commande.CommandText = "update [user] set nom=@NOM, depenses=@DEPENSES, id_soiree=@ID_SOIREE, dettes=@DETTES where id=@ID";
             commande.Parameters.Add(new SqlParameter("@NOM", user.nom));
             commande.Parameters.Add(new SqlParameter("@DEPENSES", user.depenses));
             commande.Parameters.Add(new SqlParameter("@ID_SOIREE", user.id_soiree));
             commande.Parameters.Add(new SqlParameter("@DETTES", user.dettes));
+            commande.Parameters.Add(new SqlParameter("@ID", user.id));
 
             var nbLignes = (int)commande.ExecuteNonQuery();
 
@@ -111,7 +110,7 @@ namespace Tricount.DAL
         {
             CreerConnexionEtCommande();
 
-            commande.CommandText = "delete from user where ID=@ID";
+            commande.CommandText = "delete from [user] where ID=@ID";
             commande.Parameters.Add(new SqlParameter("@ID", user.id));
 
             var nbLignes = (int)commande.ExecuteNonQuery();
@@ -128,7 +127,7 @@ namespace Tricount.DAL
         {
             CreerConnexionEtCommande();
 
-            commande.CommandText = "select id, nom, depenses, id_soiree, dettes from user where ID_SOIREE=@ID_SOIREE";
+            commande.CommandText = "select id, nom, depenses, id_soiree, dettes from [user] where id_soiree=@ID_SOIREE";
             commande.Parameters.Add(new SqlParameter("@ID_SOIREE", ID));
             var reader = commande.ExecuteReader();
 
@@ -139,9 +138,9 @@ namespace Tricount.DAL
             {
                 u = new user_DAL(reader.GetInt32(0),
                                                 reader.GetString(1),
-                                                reader.GetFloat(2),
+                                                ((float)reader.GetDouble(2)),
                                                 reader.GetInt32(3),
-                                                reader.GetFloat(4));
+                                                ((float)reader.GetDouble(4)));
                 listeAllUser.Add(u);
             }
 

@@ -105,17 +105,19 @@ namespace Tricount
             var listUser = US.GetUserBySoiree(choixsoiree);
             float PrixTotal = 0;
 
-                foreach (user user in listUser)
-                {
-                    PrixTotal += user.depenses;
-                }
-                float moyenne = (float)Math.Round(PrixTotal / listUser.Count, 2);
-                foreach (user user in listUser)
-                {
-                    user.dettes= moyenne - user.depenses;
-                    US.Update(user);
+            foreach (user user in listUser)
+            {
+                PrixTotal += user.depenses;
+            }
+            float moyenne = (float)Math.Round(PrixTotal / listUser.Count, 2);
+            foreach (user user in listUser)
+            {
+                user.dettes = moyenne - user.depenses;
+                US.Update(user);
 
-                }
+            }
+            calculRepayment(listUser);
+
             return listUser;
         }
 
@@ -123,30 +125,30 @@ namespace Tricount
         {
             for (int i = 0; i < listUser.Count; i++)
             {
-                while (listUser[i].depenses< 0)
+                while (listUser[i].dettes < 0)
                 {
                     for (int j = 0; j < listUser.Count; j++)
                     {
-                        if (listUser[j].depenses > 0)
+                        if (listUser[j].dettes > 0)
                         {
-                            var tmp = listUser[i].depenses + listUser[j].depenses;
+                            var tmp = listUser[i].dettes + listUser[j].dettes;
                             switch (tmp)
                             {
                                 case > 0:
 
-                                    Console.WriteLine($"{listUser[j].nom} doit {Math.Round(Math.Abs(listUser[i].depenses), 2)}euros à {listUser[i].nom}");
-                                    listUser[i].depenses= 0;
-                                    listUser[j].depenses = tmp;
+                                    Console.WriteLine($"{listUser[j].nom} doit {Math.Round(Math.Abs((float)listUser[i].dettes), 2)}euros à {listUser[i].nom}");
+                                    listUser[i].dettes = 0;
+                                    listUser[j].dettes = tmp;
                                     break;
                                 case < 0:
-                                    Console.WriteLine($"{listUser[j].nom} doit {Math.Round(Math.Abs(listUser[i].depenses), 2)}euros à {listUser[i].nom}");
-                                    listUser[i].depenses = tmp;
-                                    listUser[j].depenses = 0;
+                                    Console.WriteLine($"{listUser[j].nom} doit {Math.Round(Math.Abs((float)listUser[i].dettes), 2)}euros à {listUser[i].nom}");
+                                    listUser[i].dettes = tmp;
+                                    listUser[j].dettes = 0;
                                     break;
                                 case 0:
-                                    Console.WriteLine($"{listUser[j].nom} doit {Math.Round(Math.Abs(listUser[i].depenses), 2)}euros à {listUser[i].nom}");
-                                    listUser[i].depenses = 0;
-                                    listUser[j].depenses = 0;
+                                    Console.WriteLine($"{listUser[j].nom} doit {Math.Round(Math.Abs((float)listUser[i].dettes), 2)}euros à {listUser[i].nom}");
+                                    listUser[i].dettes = 0;
+                                    listUser[j].dettes = 0;
                                     break;
                                 default:
                                     break;
@@ -162,14 +164,10 @@ namespace Tricount
         /*   static void affichageDettes()
            {
                var listeSoiree = SS.GetAllSoiree();
-
                Console.WriteLine("Voici la liste des soirée :\n");
-
                AfficherPartie();
-
                Console.WriteLine("Vous souhaitez voir quelle soirée ?");
                int choixsoiree = int.Parse(Console.ReadLine());
-
                var soiree = SS.GetSoireeByID(choixsoiree);
                var nbrUser = US.GetUserBySoiree(choixsoiree);
                nbrUser.Sort();*/
@@ -191,14 +189,11 @@ namespace Tricount
                     float prix2;
                     float prixtmp;
                     float moyenne = 0; //faire la moyenne
-
                     foreach (var item in nbrUser)
                     {
                         moyenne += item.depenses;
                     }
-
                     moyenne /= nbrUser.Count;
-
                     //depense - moyenne
                     int cpt = 0;
                     for (int i = 0; i < nbrUser.Count; i++)
@@ -208,7 +203,6 @@ namespace Tricount
                         {
                             cpt++;
                         }
-
                     }
                 }
         */
@@ -217,25 +211,20 @@ namespace Tricount
             int prix1;
             int prix2;
             int prixtmp;
-
             int moyenne = 0; //faire la moyenne
-
             for (int i = 0; i < nbuser; i++)
             {
                 if (user.depenses < moyenne)
                 {
                     //définir le prix 1 sur les depenses du user devant rembourser
                     prix1 = moyenne - user.depenses;
-
                     for (int i = 0; i < nbuser; i++)
                     {
                         //définir le prix 2 sur les depenses du user devant être rembourser
                         prix2 = moyenne - user.depenses;
                     }
-
                     prixtmp = prix1 - prix2;
                     Console.WriteLine("L'utilisateur ... doit" prix1 "à l'urtilisateur ...");
-
                     if (prixtmp > 0)
                     {
                         prix1 = prix1 - prixtmp;
