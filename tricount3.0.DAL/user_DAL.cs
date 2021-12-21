@@ -27,7 +27,7 @@ namespace Tricount.DAL
         }
 
         public user_DAL(int ID, string Nom, float Depenses, int ID_Soiree, float? Dettes)
-            : this(Nom, Depenses, ID_Soiree, Dettes)
+            :this(Nom, Depenses, ID_Soiree, Dettes)
         {
             id = ID;
         }
